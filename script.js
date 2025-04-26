@@ -274,32 +274,41 @@ function atualizarGraficoMensal() {
 
 // Chamar atualizarGraficoMensal sempre que atualizar tabelas
 function atualizarTotaisTabela(tipo) {
-    const tbody = document.getElementById(tipo + '-body');
-    const linhas = Array.from(tbody.querySelectorAll('tr'));
-    let totaisMes = Array(12).fill(0);
-    let totalGeral = 0;
-    linhas.forEach(tr => {
-        let somaLinha = 0;
-        for (let i = 0; i < 12; i++) {
-            const td = tr.children[i+1];
-            let valor = parseFloat(td.innerText.replace(',', '.').replace('R$', '').replace(/\s/g, ''));
-            valor = isNaN(valor) ? 0 : valor;
-            somaLinha += valor;
-            totaisMes[i] += valor;
-        }
-        tr.querySelector('.linha-total').innerText = formatarValor(somaLinha);
-        totalGeral += somaLinha;
-    });
-    // Atualiza totais no tfoot
-    MESES.forEach((mes, i) => {
-        const th = document.getElementById(`${tipo}-total-${mes}`);
-        if (th) th.innerText = formatarValor(totaisMes[i]);
-    });
-    const thGeral = document.getElementById(`${tipo}-total-geral`);
-    if (thGeral) thGeral.innerText = formatarValor(totalGeral);
-    salvarTabela(tipo);
-    atualizarResumoMensal();
-    atualizarGraficoMensal();
+    try {
+        const tbody = document.getElementById(tipo + '-body');
+        const linhas = Array.from(tbody.querySelectorAll('tr'));
+        let totaisMes = Array(12).fill(0);
+        let totalGeral = 0;
+
+        linhas.forEach(tr => {
+            let somaLinha = 0;
+            for (let i = 0; i < 12; i++) {
+                const td = tr.children[i+1];
+                let valor = parseFloat(td.innerText.replace(',', '.').replace('R$', '').replace(/\s/g, '')) || 0;
+                somaLinha += valor;
+                totaisMes[i] += valor;
+            }
+            tr.querySelector('.linha-total').innerText = formatarValor(somaLinha);
+            totalGeral += somaLinha;
+        });
+
+        // Atualiza totais no tfoot
+        MESES.forEach((mes, i) => {
+            const th = document.getElementById(`${tipo}-total-${mes}`);
+            if (th) th.innerText = formatarValor(totaisMes[i]);
+        });
+
+        const thGeral = document.getElementById(`${tipo}-total-geral`);
+        if (thGeral) thGeral.innerText = formatarValor(totalGeral);
+
+        // Atualiza todas as visualizações
+        atualizarResumoFinanceiro();
+        atualizarResumoMensal();
+        atualizarGraficoMensal();
+        salvarTodosDados();
+    } catch (error) {
+        console.error('Erro ao atualizar totais da tabela:', error);
+    }
 }
 
 function salvarTabela(tipo) {
@@ -327,61 +336,95 @@ function carregarTabela(tipo) {
 }
 
 function atualizarResumoFinanceiro() {
-    // Entradas
-    let totalEntradas = 0;
-    let totalGastos = 0;
-    // Soma entradas
-    const entradas = document.getElementById('entradas-body').querySelectorAll('tr');
-    entradas.forEach(tr => {
-        const total = tr.querySelector('.linha-total');
-        if (total) totalEntradas += parseFloat(total.innerText.replace('R$', '').replace('.', '').replace(',', '.')) || 0;
-    });
-    // Soma gastos
-    const gastos = document.getElementById('gastos-body').querySelectorAll('tr');
-    gastos.forEach(tr => {
-        const total = tr.querySelector('.linha-total');
-        if (total) totalGastos += parseFloat(total.innerText.replace('R$', '').replace('.', '').replace(',', '.')) || 0;
-    });
-    document.getElementById('total-entradas').innerText = formatarValor(totalEntradas);
-    document.getElementById('total-gastos').innerText = formatarValor(totalGastos);
-    document.getElementById('saldo').innerText = formatarValor(totalEntradas - totalGastos);
+    try {
+        // Entradas
+        let totalEntradas = 0;
+        let totalGastos = 0;
+        let totalFixas = 0;
+
+        // Soma entradas
+        document.querySelectorAll('#entradas-body tr').forEach(tr => {
+            const total = tr.querySelector('.linha-total');
+            if (total) {
+                const valor = parseFloat(total.innerText.replace('R$', '').replace('.', '').replace(',', '.')) || 0;
+                totalEntradas += valor;
+            }
+        });
+
+        // Soma gastos
+        document.querySelectorAll('#gastos-body tr').forEach(tr => {
+            const total = tr.querySelector('.linha-total');
+            if (total) {
+                const valor = parseFloat(total.innerText.replace('R$', '').replace('.', '').replace(',', '.')) || 0;
+                totalGastos += valor;
+            }
+        });
+
+        // Soma fixas
+        document.querySelectorAll('#fixas-body tr').forEach(tr => {
+            const total = tr.querySelector('.linha-total');
+            if (total) {
+                const valor = parseFloat(total.innerText.replace('R$', '').replace('.', '').replace(',', '.')) || 0;
+                totalFixas += valor;
+            }
+        });
+
+        // Atualiza os totais
+        document.getElementById('total-entradas').innerText = formatarValor(totalEntradas);
+        document.getElementById('total-gastos').innerText = formatarValor(totalGastos + totalFixas);
+        document.getElementById('saldo').innerText = formatarValor(totalEntradas - (totalGastos + totalFixas));
+
+        // Atualiza o resumo mensal
+        atualizarResumoMensal();
+    } catch (error) {
+        console.error('Erro ao atualizar resumo financeiro:', error);
+    }
 }
 
 function atualizarResumoMensal() {
-    const mesesNomes = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
-    const resumoBody = document.getElementById('resumo-mensal-body');
-    resumoBody.innerHTML = '';
-    for (let i = 0; i < 12; i++) {
-        // Entradas
-        let entradas = 0;
-        document.querySelectorAll('#entradas-body tr').forEach(tr => {
-            let valor = parseFloat(tr.children[i+1].innerText.replace(',', '.').replace('R$', '').replace(/\s/g, ''));
-            entradas += isNaN(valor) ? 0 : valor;
-        });
-        // Gastos
-        let gastos = 0;
-        document.querySelectorAll('#gastos-body tr').forEach(tr => {
-            let valor = parseFloat(tr.children[i+1].innerText.replace(',', '.').replace('R$', '').replace(/\s/g, ''));
-            gastos += isNaN(valor) ? 0 : valor;
-        });
-        // Fixas
-        let fixas = 0;
-        document.querySelectorAll('#fixas-body tr').forEach(tr => {
-            let valor = parseFloat(tr.children[i+1].innerText.replace(',', '.').replace('R$', '').replace(/\s/g, ''));
-            fixas += isNaN(valor) ? 0 : valor;
-        });
-        // Saldo do mês
-        let saldo = entradas - gastos - fixas;
-        // Monta linha
-        const tr = document.createElement('tr');
-        tr.innerHTML = `
-            <td>${mesesNomes[i]}</td>
-            <td>${formatarValor(entradas)}</td>
-            <td>${formatarValor(gastos)}</td>
-            <td>${formatarValor(fixas)}</td>
-            <td style="font-weight:bold; color:${saldo >= 0 ? '#16a085' : '#e74c3c'}">${formatarValor(saldo)}</td>
-        `;
-        resumoBody.appendChild(tr);
+    try {
+        const mesesNomes = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+        const resumoBody = document.getElementById('resumo-mensal-body');
+        resumoBody.innerHTML = '';
+
+        for (let i = 0; i < 12; i++) {
+            // Entradas
+            let entradas = 0;
+            document.querySelectorAll('#entradas-body tr').forEach(tr => {
+                let valor = parseFloat(tr.children[i+1].innerText.replace(',', '.').replace('R$', '').replace(/\s/g, '')) || 0;
+                entradas += valor;
+            });
+
+            // Gastos
+            let gastos = 0;
+            document.querySelectorAll('#gastos-body tr').forEach(tr => {
+                let valor = parseFloat(tr.children[i+1].innerText.replace(',', '.').replace('R$', '').replace(/\s/g, '')) || 0;
+                gastos += valor;
+            });
+
+            // Fixas
+            let fixas = 0;
+            document.querySelectorAll('#fixas-body tr').forEach(tr => {
+                let valor = parseFloat(tr.children[i+1].innerText.replace(',', '.').replace('R$', '').replace(/\s/g, '')) || 0;
+                fixas += valor;
+            });
+
+            // Saldo do mês
+            let saldo = entradas - (gastos + fixas);
+
+            // Monta linha
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${mesesNomes[i]}</td>
+                <td>${formatarValor(entradas)}</td>
+                <td>${formatarValor(gastos)}</td>
+                <td>${formatarValor(fixas)}</td>
+                <td style="font-weight:bold; color:${saldo >= 0 ? '#16a085' : '#e74c3c'}">${formatarValor(saldo)}</td>
+            `;
+            resumoBody.appendChild(tr);
+        }
+    } catch (error) {
+        console.error('Erro ao atualizar resumo mensal:', error);
     }
 }
 
@@ -571,4 +614,102 @@ document.addEventListener('DOMContentLoaded', () => {
         addTransaction(transaction);
         form.reset();
     });
-}); 
+});
+
+// Função para gerar o relatório PDF
+async function gerarRelatorioPDF() {
+    try {
+        // Criar novo documento PDF
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+        
+        // Configurações iniciais
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const pageHeight = doc.internal.pageSize.getHeight();
+        let yPosition = 20;
+        
+        // Título
+        doc.setFontSize(20);
+        doc.text('Relatório Financeiro', pageWidth / 2, yPosition, { align: 'center' });
+        yPosition += 20;
+        
+        // Data do relatório
+        doc.setFontSize(12);
+        doc.text(`Data: ${new Date().toLocaleDateString('pt-BR')}`, pageWidth / 2, yPosition, { align: 'center' });
+        yPosition += 20;
+        
+        // Resumo Financeiro
+        doc.setFontSize(16);
+        doc.text('Resumo Financeiro', 20, yPosition);
+        yPosition += 10;
+        
+        doc.setFontSize(12);
+        const totalEntradas = document.getElementById('total-entradas').textContent;
+        const totalGastos = document.getElementById('total-gastos').textContent;
+        const saldo = document.getElementById('saldo').textContent;
+        
+        doc.text(`Total de Entradas: ${totalEntradas}`, 20, yPosition);
+        yPosition += 10;
+        doc.text(`Total de Gastos: ${totalGastos}`, 20, yPosition);
+        yPosition += 10;
+        doc.text(`Saldo: ${saldo}`, 20, yPosition);
+        yPosition += 20;
+        
+        // Capturar e adicionar o gráfico
+        const canvas = document.getElementById('grafico-mensal');
+        const imgData = await html2canvas(canvas).then(canvas => canvas.toDataURL('image/png'));
+        doc.addImage(imgData, 'PNG', 20, yPosition, pageWidth - 40, 100);
+        yPosition += 120;
+        
+        // Tabela de Entradas
+        doc.setFontSize(16);
+        doc.text('Entradas Mensais', 20, yPosition);
+        yPosition += 10;
+        
+        // Capturar tabela de entradas
+        const tabelaEntradas = document.getElementById('entradas-table');
+        const imgEntradas = await html2canvas(tabelaEntradas).then(canvas => canvas.toDataURL('image/png'));
+        doc.addImage(imgEntradas, 'PNG', 20, yPosition, pageWidth - 40, 0);
+        yPosition += tabelaEntradas.offsetHeight * 0.2 + 20;
+        
+        // Nova página se necessário
+        if (yPosition > pageHeight - 50) {
+            doc.addPage();
+            yPosition = 20;
+        }
+        
+        // Tabela de Gastos
+        doc.setFontSize(16);
+        doc.text('Gastos Mensais', 20, yPosition);
+        yPosition += 10;
+        
+        // Capturar tabela de gastos
+        const tabelaGastos = document.getElementById('gastos-table');
+        const imgGastos = await html2canvas(tabelaGastos).then(canvas => canvas.toDataURL('image/png'));
+        doc.addImage(imgGastos, 'PNG', 20, yPosition, pageWidth - 40, 0);
+        yPosition += tabelaGastos.offsetHeight * 0.2 + 20;
+        
+        // Nova página se necessário
+        if (yPosition > pageHeight - 50) {
+            doc.addPage();
+            yPosition = 20;
+        }
+        
+        // Tabela de Contas Fixas
+        doc.setFontSize(16);
+        doc.text('Contas Fixas', 20, yPosition);
+        yPosition += 10;
+        
+        // Capturar tabela de fixas
+        const tabelaFixas = document.getElementById('fixas-table');
+        const imgFixas = await html2canvas(tabelaFixas).then(canvas => canvas.toDataURL('image/png'));
+        doc.addImage(imgFixas, 'PNG', 20, yPosition, pageWidth - 40, 0);
+        
+        // Salvar o PDF
+        doc.save(`relatorio_financeiro_${new Date().toISOString().split('T')[0]}.pdf`);
+        
+    } catch (error) {
+        console.error('Erro ao gerar PDF:', error);
+        alert('Erro ao gerar o relatório PDF. Por favor, tente novamente.');
+    }
+} 

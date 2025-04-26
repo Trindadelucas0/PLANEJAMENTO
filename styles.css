@@ -311,4 +311,18 @@ tr:hover td {
 
 #lista-orcamentos button:hover {
     background: rgba(255, 255, 255, 0.3);
+}
+
+/* Estilos para o botão de PDF */
+.btn-pdf {
+    background: #e74c3c !important;
+    color: white !important;
+    padding: 8px 15px !important;
+    border-radius: 4px !important;
+    margin-left: 10px !important;
+    font-weight: bold !important;
+}
+
+.btn-pdf:hover {
+    background: #c0392b !important;
 } 

@@ -15,6 +15,7 @@
             <div class="orcamentos-container">
                 <h2>Gerenciar Orçamentos</h2>
                 <button onclick="orcamentoAtualId = gerarNovoId(); carregarTodosDados();">Novo Orçamento</button>
+                <button onclick="gerarRelatorioPDF()" class="btn-pdf">Gerar Relatório PDF</button>
                 <ul id="lista-orcamentos"></ul>
             </div>
         </header>
@@ -209,6 +210,8 @@
         </main>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
     <script src="script.js"></script>
 </body>
 
