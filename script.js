@@ -26,6 +26,14 @@ const MESES = [
     'jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'
 ];
 
+// ID do orçamento atual
+let orcamentoAtualId = 'orcamento_2024';
+
+// Função para gerar um novo ID
+function gerarNovoId() {
+    return 'orcamento_' + new Date().getTime();
+}
+
 // Função para formatar valores monetários
 function formatCurrency(value) {
     return new Intl.NumberFormat('pt-BR', {
@@ -377,9 +385,176 @@ function atualizarResumoMensal() {
     }
 }
 
+// Função para salvar todos os dados no localStorage
+function salvarTodosDados() {
+    try {
+        // Criar objeto com todos os dados
+        const dados = {
+            entradas: [],
+            gastos: [],
+            fixas: [],
+            transacoes: transactions,
+            ultimaAtualizacao: new Date().toISOString()
+        };
+
+        // Coletar dados das tabelas
+        document.querySelectorAll('#entradas-body tr').forEach(tr => {
+            const categoria = tr.children[0].innerText;
+            const valores = {};
+            for (let i = 0; i < 12; i++) {
+                valores[MESES[i]] = tr.children[i+1].innerText;
+            }
+            dados.entradas.push({ categoria, valores });
+        });
+
+        document.querySelectorAll('#gastos-body tr').forEach(tr => {
+            const categoria = tr.children[0].innerText;
+            const valores = {};
+            for (let i = 0; i < 12; i++) {
+                valores[MESES[i]] = tr.children[i+1].innerText;
+            }
+            dados.gastos.push({ categoria, valores });
+        });
+
+        document.querySelectorAll('#fixas-body tr').forEach(tr => {
+            const categoria = tr.children[0].innerText;
+            const valores = {};
+            for (let i = 0; i < 12; i++) {
+                valores[MESES[i]] = tr.children[i+1].innerText;
+            }
+            dados.fixas.push({ categoria, valores });
+        });
+
+        // Salvar dados no localStorage
+        localStorage.setItem(orcamentoAtualId, JSON.stringify(dados));
+        
+        // Atualizar lista de orçamentos
+        atualizarListaOrcamentos();
+    } catch (error) {
+        console.error('Erro ao salvar dados:', error);
+    }
+}
+
+// Função para carregar todos os dados do localStorage
+function carregarTodosDados() {
+    try {
+        // Limpar tabelas antes de carregar
+        document.getElementById('entradas-body').innerHTML = '';
+        document.getElementById('gastos-body').innerHTML = '';
+        document.getElementById('fixas-body').innerHTML = '';
+
+        // Carregar dados do localStorage
+        const dadosSalvos = localStorage.getItem(orcamentoAtualId);
+        if (dadosSalvos) {
+            const dados = JSON.parse(dadosSalvos);
+            
+            // Carregar entradas
+            dados.entradas.forEach(linha => {
+                const tr = criarLinhaTabela('entradas', linha.categoria, linha.valores);
+                document.getElementById('entradas-body').appendChild(tr);
+            });
+
+            // Carregar gastos
+            dados.gastos.forEach(linha => {
+                const tr = criarLinhaTabela('gastos', linha.categoria, linha.valores);
+                document.getElementById('gastos-body').appendChild(tr);
+            });
+
+            // Carregar fixas
+            dados.fixas.forEach(linha => {
+                const tr = criarLinhaTabela('fixas', linha.categoria, linha.valores);
+                document.getElementById('fixas-body').appendChild(tr);
+            });
+
+            // Carregar transações
+            transactions = dados.transacoes || [];
+        }
+
+        // Atualizar totais e visualizações
+        atualizarTotaisTabela('entradas');
+        atualizarTotaisTabela('gastos');
+        atualizarTotaisTabela('fixas');
+        atualizarResumoFinanceiro();
+        atualizarResumoMensal();
+        atualizarGraficoMensal();
+    } catch (error) {
+        console.error('Erro ao carregar dados:', error);
+    }
+}
+
+// Função para atualizar a lista de orçamentos
+function atualizarListaOrcamentos() {
+    const listaOrcamentos = document.getElementById('lista-orcamentos');
+    if (!listaOrcamentos) return;
+
+    listaOrcamentos.innerHTML = '';
+    for (let i = 0; i < localStorage.length; i++) {
+        const key = localStorage.key(i);
+        if (key.startsWith('orcamento_')) {
+            const dados = JSON.parse(localStorage.getItem(key));
+            const li = document.createElement('li');
+            li.innerHTML = `
+                <span>Orçamento ${key.replace('orcamento_', '')}</span>
+                <span>Última atualização: ${new Date(dados.ultimaAtualizacao).toLocaleString()}</span>
+                <button onclick="carregarOrcamento('${key}')">Carregar</button>
+                <button onclick="excluirOrcamento('${key}')">Excluir</button>
+            `;
+            listaOrcamentos.appendChild(li);
+        }
+    }
+}
+
+// Função para carregar um orçamento específico
+function carregarOrcamento(id) {
+    orcamentoAtualId = id;
+    carregarTodosDados();
+}
+
+// Função para excluir um orçamento
+function excluirOrcamento(id) {
+    if (confirm('Tem certeza que deseja excluir este orçamento?')) {
+        localStorage.removeItem(id);
+        if (id === orcamentoAtualId) {
+            orcamentoAtualId = gerarNovoId();
+            carregarTodosDados();
+        }
+        atualizarListaOrcamentos();
+    }
+}
+
 // Event Listeners
 document.addEventListener('DOMContentLoaded', () => {
-    loadTransactions();
+    // Verificar se já existe um orçamento
+    const orcamentos = Object.keys(localStorage).filter(key => key.startsWith('orcamento_'));
+    if (orcamentos.length === 0) {
+        orcamentoAtualId = gerarNovoId();
+    } else {
+        orcamentoAtualId = orcamentos[0]; // Usar o primeiro orçamento encontrado
+    }
+
+    // Carregar todos os dados ao iniciar
+    setTimeout(() => {
+        carregarTodosDados();
+        atualizarListaOrcamentos();
+    }, 100);
+
+    // Adicionar evento para salvar dados quando houver mudanças
+    document.addEventListener('input', () => {
+        setTimeout(() => {
+            salvarTodosDados();
+        }, 100);
+    });
+
+    // Adicionar evento para salvar dados quando adicionar/remover linhas
+    document.addEventListener('click', (e) => {
+        if (e.target.tagName === 'BUTTON' && 
+            (e.target.textContent === 'Adicionar Categoria' || 
+             e.target.textContent === 'Remover')) {
+            setTimeout(() => {
+                salvarTodosDados();
+            }, 100);
+        }
+    });
 
     const form = document.getElementById('entry-form');
     form.addEventListener('submit', (e) => {
@@ -396,11 +571,4 @@ document.addEventListener('DOMContentLoaded', () => {
         addTransaction(transaction);
         form.reset();
     });
-
-    carregarTabela('entradas');
-    carregarTabela('gastos');
-    carregarTabela('fixas');
-    atualizarResumoFinanceiro();
-    atualizarResumoMensal();
-    atualizarGraficoMensal();
 }); 
