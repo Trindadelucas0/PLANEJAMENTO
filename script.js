@@ -34,6 +34,19 @@ function gerarNovoId() {
     return 'orcamento_' + new Date().getTime();
 }
 
+// Função para obter o nome do orçamento
+function obterNomeOrcamento(id) {
+    const dados = JSON.parse(localStorage.getItem(id) || '{}');
+    return dados.nome || `Orçamento ${id.replace('orcamento_', '')}`;
+}
+
+// Função para salvar o nome do orçamento
+function salvarNomeOrcamento(id, nome) {
+    const dados = JSON.parse(localStorage.getItem(id) || '{}');
+    dados.nome = nome;
+    localStorage.setItem(id, JSON.stringify(dados));
+}
+
 // Função para formatar valores monetários
 function formatCurrency(value) {
     return new Intl.NumberFormat('pt-BR', {
@@ -433,6 +446,7 @@ function salvarTodosDados() {
     try {
         // Criar objeto com todos os dados
         const dados = {
+            nome: obterNomeOrcamento(orcamentoAtualId),
             entradas: [],
             gastos: [],
             fixas: [],
@@ -534,13 +548,14 @@ function atualizarListaOrcamentos() {
     for (let i = 0; i < localStorage.length; i++) {
         const key = localStorage.key(i);
         if (key.startsWith('orcamento_')) {
-            const dados = JSON.parse(localStorage.getItem(key));
+            const nome = obterNomeOrcamento(key);
             const li = document.createElement('li');
             li.innerHTML = `
-                <span>Orçamento ${key.replace('orcamento_', '')}</span>
-                <span>Última atualização: ${new Date(dados.ultimaAtualizacao).toLocaleString()}</span>
+                <span>${nome}</span>
+                <input type="text" class="nome-orcamento" value="${nome}" 
+                       onchange="salvarNomeOrcamento('${key}', this.value); atualizarListaOrcamentos();">
                 <button onclick="carregarOrcamento('${key}')">Carregar</button>
-                <button onclick="excluirOrcamento('${key}')">Excluir</button>
+                <button onclick="excluirOrcamento('${key}')" class="btn-excluir">Excluir</button>
             `;
             listaOrcamentos.appendChild(li);
         }
@@ -555,7 +570,7 @@ function carregarOrcamento(id) {
 
 // Função para excluir um orçamento
 function excluirOrcamento(id) {
-    if (confirm('Tem certeza que deseja excluir este orçamento?')) {
+    if (confirm('Tem certeza que deseja excluir este orçamento? Esta ação não pode ser desfeita.')) {
         localStorage.removeItem(id);
         if (id === orcamentoAtualId) {
             orcamentoAtualId = gerarNovoId();

@@ -292,11 +292,29 @@ tr:hover td {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 10px;
 }
 
 #lista-orcamentos li span {
     color: #fff;
     margin-right: 10px;
+    flex: 1;
+}
+
+#lista-orcamentos .nome-orcamento {
+    flex: 2;
+    padding: 5px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    font-size: 0.9em;
+}
+
+#lista-orcamentos .nome-orcamento:focus {
+    outline: none;
+    border-color: #3498db;
+    background: rgba(255, 255, 255, 0.2);
 }
 
 #lista-orcamentos button {
@@ -307,10 +325,34 @@ tr:hover td {
     border-radius: 4px;
     color: #fff;
     cursor: pointer;
+    transition: background 0.2s;
 }
 
 #lista-orcamentos button:hover {
     background: rgba(255, 255, 255, 0.3);
+}
+
+#lista-orcamentos .btn-excluir {
+    background: rgba(231, 76, 60, 0.7) !important;
+}
+
+#lista-orcamentos .btn-excluir:hover {
+    background: rgba(231, 76, 60, 0.9) !important;
+}
+
+@media (max-width: 600px) {
+    #lista-orcamentos li {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    #lista-orcamentos .nome-orcamento {
+        margin: 5px 0;
+    }
+    
+    #lista-orcamentos button {
+        margin: 5px 0;
+    }
 }
 
 /* Estilos para o botão de PDF */
