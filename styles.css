@@ -1,13 +1,214 @@
+:root {
+    --primary-color: #4a6cf7;
+    --secondary-color: #6c8eff;
+    --accent-color: #7b9eff;
+    --dark-color: #1e293b;
+    --light-color: #f1f5f9;
+    --success-color: #10b981;
+    --danger-color: #ef4444;
+    --gradient: linear-gradient(135deg, #4a6cf7 0%, #6c8eff 100%);
+    --shadow: 0 4px 6px rgba(74, 108, 247, 0.1);
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 body {
-    background-color: #f5f7fa;
-    color: #222;
+    line-height: 1.6;
+    color: var(--dark-color);
+    background: var(--light-color);
+}
+
+/* Header */
+.header {
+    background: var(--gradient);
+    color: white;
+    padding: 2rem 5%;
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: white;
+}
+
+.header p {
+    opacity: 0.9;
+    color: white;
+}
+
+/* Navigation */
+.nav {
+    background: white;
+    padding: 1rem 5%;
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.nav ul {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    list-style: none;
+}
+
+.nav a {
+    color: var(--dark-color);
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav a:hover {
+    color: var(--primary-color);
+}
+
+/* Content */
+.content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 5%;
+}
+
+.section {
+    background: white;
+    padding: 2rem;
+    border-radius: 15px;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow);
+}
+
+.section h2 {
+    color: var(--primary-color);
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.section h2 i {
+    color: var(--secondary-color);
+}
+
+/* Cards */
+.card {
+    background: var(--light-color);
+    padding: 2rem;
+    border-radius: 15px;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.card i {
+    font-size: 2rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.card h3 {
+    margin-bottom: 1rem;
+    color: var(--dark-color);
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn-primary {
+    background: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: var(--secondary-color);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: var(--light-color);
+    color: var(--dark-color);
+}
+
+.btn-secondary:hover {
+    background: var(--accent-color);
+    color: white;
+}
+
+/* Forms */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: var(--dark-color);
+}
+
+.form-control {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    transition: border-color 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: var(--primary-color);
+    outline: none;
+}
+
+/* Alerts */
+.alert {
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+.alert-success {
+    background: var(--success-color);
+    color: white;
+}
+
+.alert-danger {
+    background: var(--danger-color);
+    color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .nav ul {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .content {
+        padding: 2rem 5%;
+    }
+
+    .section {
+        padding: 1.5rem;
+    }
 }
 
 .container {
@@ -20,9 +221,9 @@ header {
     text-align: center;
     margin-bottom: 32px;
     padding: 24px 0 16px 0;
-    background: linear-gradient(90deg, #3498db 0%, #6dd5fa 100%);
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(52,152,219,0.08);
+    background: var(--gradient);
+    border-radius: 16px;
+    box-shadow: var(--shadow);
 }
 
 h1 {
@@ -43,7 +244,7 @@ h1 {
     background-color: #fff;
     padding: 24px 18px 18px 18px;
     border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(52,152,219,0.08);
+    box-shadow: var(--shadow);
     margin-bottom: 10px;
     min-width: 340px;
     max-width: 100%;
@@ -55,7 +256,7 @@ h1 {
 }
 
 .card h2 {
-    color: #3498db;
+    color: var(--primary-color);
     margin-bottom: 18px;
     font-size: 1.4em;
     font-weight: 600;
@@ -69,7 +270,7 @@ h1 {
 label {
     display: block;
     margin-bottom: 5px;
-    color: #666;
+    color: var(--dark-color);
 }
 
 input, select {
@@ -82,7 +283,7 @@ input, select {
 
 button {
     padding: 8px 16px;
-    background: linear-gradient(90deg, #3498db 0%, #6dd5fa 100%);
+    background: var(--gradient);
     color: #fff;
     border: none;
     border-radius: 6px;
@@ -95,7 +296,7 @@ button {
 }
 
 button:hover {
-    background: linear-gradient(90deg, #2980b9 0%, #3498db 100%);
+    background: linear-gradient(135deg, #3a5ce5 0%, #5a7eff 100%);
 }
 
 /* Resumo Financeiro */
