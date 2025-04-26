@@ -5,10 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Planejamento Financeiro 2024</title>
+    <link rel="stylesheet" href="landing.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
+    
     <div class="container">
         <header>
             <h1>Planejamento Financeiro </h1>
@@ -17,6 +19,7 @@
                 <button onclick="orcamentoAtualId = gerarNovoId(); carregarTodosDados();">Novo Orçamento</button>
                 <button onclick="gerarRelatorioPDF()" class="btn-pdf">Gerar Relatório PDF</button>
                 <ul id="lista-orcamentos"></ul>
+                
             </div>
         </header>
         <main>
@@ -209,6 +212,26 @@
             </div>
         </main>
     </div>
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Planejamento Financeiro</h3>
+                <p>O melhor sistema para gerenciar suas finanças pessoais</p>
+            </div>
+            <div class="footer-section">
+                <h3>Links Rápidos</h3>
+                <ul>
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="tutorial.html">Como Funciona</a></li>
+                    <li><a href="#features">Recursos</a></li>
+                </ul>
+            </div>
+            
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Planejamento Financeiro. Todos os direitos reservados.</p>
+        </div>
+    </footer>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
