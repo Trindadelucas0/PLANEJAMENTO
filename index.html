@@ -23,6 +23,23 @@
             </div>
         </header>
         <main>
+            <div class="card">
+                <h2>Resumo Mensal</h2>
+                <div class="table-responsive">
+                    <table id="resumo-mensal-table">
+                        <thead>
+                            <tr>
+                                <th>Mês</th>
+                                <th>Entradas</th>
+                                <th>Gastos</th>
+                                <th>Fixas</th>
+                                <th>Saldo do Mês</th>
+                            </tr>
+                        </thead>
+                        <tbody id="resumo-mensal-body"></tbody>
+                    </table>
+                </div>
+            </div>
             <div class="dashboard">
                 <!-- Resumo Financeiro -->
                 <div class="card">
@@ -43,23 +60,7 @@
                     </div>
                 </div>
                 <!-- Resumo Mensal por Mês -->
-                <div class="card">
-                    <h2>Resumo Mensal</h2>
-                    <div class="table-responsive">
-                        <table id="resumo-mensal-table">
-                            <thead>
-                                <tr>
-                                    <th>Mês</th>
-                                    <th>Entradas</th>
-                                    <th>Gastos</th>
-                                    <th>Fixas</th>
-                                    <th>Saldo do Mês</th>
-                                </tr>
-                            </thead>
-                            <tbody id="resumo-mensal-body"></tbody>
-                        </table>
-                    </div>
-                </div>
+          
                 <!-- Gráfico de Barras Mensal -->
                 <div class="card card-full">
                     <h2>Gráfico de Lucro e Gastos Mensais</h2>
@@ -113,6 +114,7 @@
                     </div>
                     <button onclick="addEntradaRow()">Adicionar Categoria</button>
                 </div>
+                
                 <!-- Gastos Mensais -->
                 <div class="card card-full">
                     <h2>Gastos Mensais</h2>

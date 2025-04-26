@@ -1,3 +1,4 @@
+/* ===== VARIÁVEIS E RESET ===== */
 :root {
     --primary-color: #4a6cf7;
     --secondary-color: #6c8eff;
@@ -25,198 +26,22 @@ body {
     background: var(--light-color);
 }
 
-/* Header */
-.header {
-    background: var(--gradient);
-    color: white;
-    padding: 2rem 5%;
-    text-align: center;
-}
-
-.header h1 {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-    color: white;
-}
-
-.header p {
-    opacity: 0.9;
-    color: white;
-}
-
-/* Navigation */
-.nav {
-    background: white;
-    padding: 1rem 5%;
-    box-shadow: var(--shadow);
-    position: sticky;
-    top: 0;
-    z-index: 100;
-}
-
-.nav ul {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-    list-style: none;
-}
-
-.nav a {
-    color: var(--dark-color);
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.3s ease;
-}
-
-.nav a:hover {
-    color: var(--primary-color);
-}
-
-/* Content */
-.content {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 3rem 5%;
-}
-
-.section {
-    background: white;
-    padding: 2rem;
-    border-radius: 15px;
-    margin-bottom: 2rem;
-    box-shadow: var(--shadow);
-}
-
-.section h2 {
-    color: var(--primary-color);
-    margin-bottom: 1.5rem;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-}
-
-.section h2 i {
-    color: var(--secondary-color);
-}
-
-/* Cards */
-.card {
-    background: var(--light-color);
-    padding: 2rem;
-    border-radius: 15px;
-    text-align: center;
-    transition: transform 0.3s ease;
-}
-
-.card:hover {
-    transform: translateY(-5px);
-}
-
-.card i {
-    font-size: 2rem;
-    color: var(--primary-color);
-    margin-bottom: 1rem;
-}
-
-.card h3 {
-    margin-bottom: 1rem;
-    color: var(--dark-color);
-}
-
-/* Buttons */
-.btn {
-    display: inline-block;
-    padding: 0.8rem 1.5rem;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 500;
-    transition: all 0.3s ease;
-}
-
-.btn-primary {
-    background: var(--primary-color);
-    color: white;
-}
-
-.btn-primary:hover {
-    background: var(--secondary-color);
-    transform: translateY(-2px);
-}
-
-.btn-secondary {
-    background: var(--light-color);
-    color: var(--dark-color);
-}
-
-.btn-secondary:hover {
-    background: var(--accent-color);
-    color: white;
-}
-
-/* Forms */
-.form-group {
-    margin-bottom: 1.5rem;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 0.5rem;
-    color: var(--dark-color);
-}
-
-.form-control {
-    width: 100%;
-    padding: 0.8rem;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    transition: border-color 0.3s ease;
-}
-
-.form-control:focus {
-    border-color: var(--primary-color);
-    outline: none;
-}
-
-/* Alerts */
-.alert {
-    padding: 1rem;
-    border-radius: 8px;
-    margin-bottom: 1rem;
-}
-
-.alert-success {
-    background: var(--success-color);
-    color: white;
-}
-
-.alert-danger {
-    background: var(--danger-color);
-    color: white;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .nav ul {
-        flex-direction: column;
-        align-items: center;
-        gap: 1rem;
-    }
-
-    .content {
-        padding: 2rem 5%;
-    }
-
-    .section {
-        padding: 1.5rem;
-    }
-}
-
+/* ===== LAYOUT ===== */
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 24px;
 }
 
+.dashboard {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    justify-items: stretch;
+    align-items: flex-start;
+}
+
+/* ===== HEADER ===== */
 header {
     text-align: center;
     margin-bottom: 32px;
@@ -232,14 +57,7 @@ h1 {
     letter-spacing: 1px;
 }
 
-.dashboard {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 32px;
-    justify-items: stretch;
-    align-items: flex-start;
-}
-
+/* ===== CARDS ===== */
 .card {
     background-color: #fff;
     padding: 24px 18px 18px 18px;
@@ -262,7 +80,14 @@ h1 {
     font-weight: 600;
 }
 
-/* Estilos do Formulário */
+.card-full {
+    grid-column: 1 / -1 !important;
+    max-width: 100%;
+    width: 100%;
+    margin-bottom: 32px;
+}
+
+/* ===== FORMULÁRIOS ===== */
 .form-group {
     margin-bottom: 15px;
 }
@@ -299,41 +124,61 @@ button:hover {
     background: linear-gradient(135deg, #3a5ce5 0%, #5a7eff 100%);
 }
 
-/* Resumo Financeiro */
+/* ===== RESUMO FINANCEIRO ===== */
 #financial-summary {
     display: flex;
-    justify-content: space-between;
-    gap: 18px;
-    margin-bottom: 10px;
-    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
 }
+
 .summary-item {
-    flex: 1 1 120px;
+    width: 100%;
     background: #f0f6fb;
     border-radius: 8px;
     padding: 16px 10px;
     text-align: center;
     box-shadow: 0 1px 3px rgba(52,152,219,0.04);
-    min-width: 120px;
-    margin-bottom: 0;
+    transition: transform 0.3s ease;
 }
+
+.summary-item:hover {
+    transform: translateY(-2px);
+}
+
 .summary-item h3 {
     color: #2980b9;
     font-size: 1.05em;
     margin-bottom: 6px;
 }
+
 .summary-item p {
     font-size: 1.3em;
     font-weight: bold;
     color: #222;
 }
 
-/* Tabelas */
+/* Ajuste para telas maiores */
+@media (min-width: 768px) {
+    #financial-summary {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+    
+    .summary-item {
+        flex: 1 1 calc(33.333% - 10px);
+        min-width: 200px;
+    }
+}
+
+/* ===== TABELAS ===== */
 .table-responsive {
     width: 100%;
     margin-bottom: 10px;
     overflow-x: unset;
 }
+
 table {
     width: 100%;
     border-collapse: collapse;
@@ -344,12 +189,14 @@ table {
     min-width: 900px;
     max-width: 100%;
 }
+
 th, td {
     border: 1px solid #e3eaf1;
     padding: 8px 6px;
     text-align: center;
     font-size: 1em;
 }
+
 th {
     background: #eaf6fb;
     color: #2980b9;
@@ -358,24 +205,28 @@ th {
     top: 0;
     z-index: 2;
 }
+
 tfoot th {
     background: #d0eaf7;
     color: #222;
     font-weight: bold;
 }
+
 tr:nth-child(even) td {
     background: #f4fafd;
 }
+
 tr:hover td {
     background: #eaf6fb;
 }
+
 .linha-total {
     font-weight: bold;
     color: #16a085;
     background: #eafaf1;
 }
 
-/* Estilos da Lista de Transações */
+/* ===== TRANSAÇÕES ===== */
 .transaction-item {
     display: flex;
     justify-content: space-between;
@@ -418,57 +269,9 @@ tr:hover td {
     color: #e74c3c;
 }
 
-.card-full {
-    grid-column: 1 / -1 !important;
-    max-width: 100%;
-    width: 100%;
-    margin-bottom: 32px;
-}
-
-@media (max-width: 1200px) {
-    .dashboard {
-        grid-template-columns: 1fr;
-        gap: 18px;
-    }
-    .card, .card-full {
-        min-width: 0;
-        max-width: 100%;
-    }
-}
-@media (max-width: 900px) {
-    .container {
-        padding: 10px;
-    }
-    #financial-summary {
-        flex-direction: column;
-        gap: 10px;
-    }
-    .dashboard {
-        grid-template-columns: 1fr;
-        gap: 16px;
-    }
-    .card {
-        min-width: 0;
-        min-height: 0;
-        max-width: 100%;
-    }
-}
-@media (max-width: 600px) {
-    .card {
-        padding: 10px 4px 8px 4px;
-    }
-    h1 {
-        font-size: 1.3em;
-    }
-    th, td {
-        font-size: 0.95em;
-        padding: 5px 2px;
-    }
-}
-
-/* Estilos para gerenciamento de orçamentos */
+/* ===== ORÇAMENTOS ===== */
 .orcamentos-container {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--glass-bg);
     padding: 15px;
     border-radius: 8px;
     margin-top: 15px;
@@ -486,7 +289,7 @@ tr:hover td {
 }
 
 #lista-orcamentos li {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--glass-bg);
     padding: 10px;
     margin-bottom: 5px;
     border-radius: 4px;
@@ -503,7 +306,7 @@ tr:hover td {
 #lista-orcamentos button {
     padding: 5px 10px;
     margin-left: 5px;
-    background: rgba(255, 255, 255, 0.2);
+    background: var(--glass-bg);
     border: none;
     border-radius: 4px;
     color: #fff;
@@ -511,10 +314,10 @@ tr:hover td {
 }
 
 #lista-orcamentos button:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: var(--glass-border);
 }
 
-/* Estilos para o botão de PDF */
+/* ===== BOTÕES ESPECIAIS ===== */
 .btn-pdf {
     background: #e74c3c !important;
     color: white !important;
@@ -526,4 +329,54 @@ tr:hover td {
 
 .btn-pdf:hover {
     background: #c0392b !important;
+}
+
+/* ===== RESPONSIVO ===== */
+@media (max-width: 1200px) {
+    .dashboard {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+    
+    .card, .card-full {
+        min-width: 0;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 900px) {
+    .container {
+        padding: 10px;
+    }
+    
+    #financial-summary {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .dashboard {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    
+    .card {
+        min-width: 0;
+        min-height: 0;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 600px) {
+    .card {
+        padding: 10px 4px 8px 4px;
+    }
+    
+    h1 {
+        font-size: 1.3em;
+    }
+    
+    th, td {
+        font-size: 0.95em;
+        padding: 5px 2px;
+    }
 } 
