@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Planejamento Financeiro 2024</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>Planejamento Financeiro </h1>
+        </header>
+        <main>
+            <div class="dashboard">
+                <!-- Resumo Financeiro -->
+                <div class="card">
+                    <h2>Resumo Financeiro</h2>
+                    <div id="financial-summary">
+                        <div class="summary-item">
+                            <h3>Total Entradas</h3>
+                            <p id="total-entradas">R$ 0,00</p>
+                        </div>
+                        <div class="summary-item">
+                            <h3>Total Gastos</h3>
+                            <p id="total-gastos">R$ 0,00</p>
+                        </div>
+                        <div class="summary-item">
+                            <h3>Saldo</h3>
+                            <p id="saldo">R$ 0,00</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Resumo Mensal por Mês -->
+                <div class="card">
+                    <h2>Resumo Mensal</h2>
+                    <div class="table-responsive">
+                        <table id="resumo-mensal-table">
+                            <thead>
+                                <tr>
+                                    <th>Mês</th>
+                                    <th>Entradas</th>
+                                    <th>Gastos</th>
+                                    <th>Fixas</th>
+                                    <th>Saldo do Mês</th>
+                                </tr>
+                            </thead>
+                            <tbody id="resumo-mensal-body"></tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- Gráfico de Barras Mensal -->
+                <div class="card card-full">
+                    <h2>Gráfico de Lucro e Gastos Mensais</h2>
+                    <canvas id="grafico-mensal" height="120"></canvas>
+                </div>
+                <!-- Entradas Mensais -->
+                <div class="card card-full">
+                    <h2>Entradas Mensais</h2>
+                    <div class="table-responsive">
+                        <table id="entradas-table">
+                            <thead>
+                                <tr>
+                                    <th>Categoria</th>
+                                    <th>JAN</th>
+                                    <th>FEV</th>
+                                    <th>MAR</th>
+                                    <th>ABR</th>
+                                    <th>MAI</th>
+                                    <th>JUN</th>
+                                    <th>JUL</th>
+                                    <th>AGO</th>
+                                    <th>SET</th>
+                                    <th>OUT</th>
+                                    <th>NOV</th>
+                                    <th>DEZ</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="entradas-body"></tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Total</th>
+                                    <th id="entradas-total-jan">R$ 0,00</th>
+                                    <th id="entradas-total-fev">R$ 0,00</th>
+                                    <th id="entradas-total-mar">R$ 0,00</th>
+                                    <th id="entradas-total-abr">R$ 0,00</th>
+                                    <th id="entradas-total-mai">R$ 0,00</th>
+                                    <th id="entradas-total-jun">R$ 0,00</th>
+                                    <th id="entradas-total-jul">R$ 0,00</th>
+                                    <th id="entradas-total-ago">R$ 0,00</th>
+                                    <th id="entradas-total-set">R$ 0,00</th>
+                                    <th id="entradas-total-out">R$ 0,00</th>
+                                    <th id="entradas-total-nov">R$ 0,00</th>
+                                    <th id="entradas-total-dez">R$ 0,00</th>
+                                    <th id="entradas-total-geral">R$ 0,00</th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <button onclick="addEntradaRow()">Adicionar Categoria</button>
+                </div>
+                <!-- Gastos Mensais -->
+                <div class="card card-full">
+                    <h2>Gastos Mensais</h2>
+                    <div class="table-responsive">
+                        <table id="gastos-table">
+                            <thead>
+                                <tr>
+                                    <th>Categoria</th>
+                                    <th>JAN</th>
+                                    <th>FEV</th>
+                                    <th>MAR</th>
+                                    <th>ABR</th>
+                                    <th>MAI</th>
+                                    <th>JUN</th>
+                                    <th>JUL</th>
+                                    <th>AGO</th>
+                                    <th>SET</th>
+                                    <th>OUT</th>
+                                    <th>NOV</th>
+                                    <th>DEZ</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="gastos-body"></tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Total</th>
+                                    <th id="gastos-total-jan">R$ 0,00</th>
+                                    <th id="gastos-total-fev">R$ 0,00</th>
+                                    <th id="gastos-total-mar">R$ 0,00</th>
+                                    <th id="gastos-total-abr">R$ 0,00</th>
+                                    <th id="gastos-total-mai">R$ 0,00</th>
+                                    <th id="gastos-total-jun">R$ 0,00</th>
+                                    <th id="gastos-total-jul">R$ 0,00</th>
+                                    <th id="gastos-total-ago">R$ 0,00</th>
+                                    <th id="gastos-total-set">R$ 0,00</th>
+                                    <th id="gastos-total-out">R$ 0,00</th>
+                                    <th id="gastos-total-nov">R$ 0,00</th>
+                                    <th id="gastos-total-dez">R$ 0,00</th>
+                                    <th id="gastos-total-geral">R$ 0,00</th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <button onclick="addGastoRow()">Adicionar Categoria</button>
+                </div>
+                <!-- Contas Fixas -->
+                <div class="card card-full">
+                    <h2>Contas Fixas</h2>
+                    <div class="table-responsive">
+                        <table id="fixas-table">
+                            <thead>
+                                <tr>
+                                    <th>Categoria</th>
+                                    <th>JAN</th>
+                                    <th>FEV</th>
+                                    <th>MAR</th>
+                                    <th>ABR</th>
+                                    <th>MAI</th>
+                                    <th>JUN</th>
+                                    <th>JUL</th>
+                                    <th>AGO</th>
+                                    <th>SET</th>
+                                    <th>OUT</th>
+                                    <th>NOV</th>
+                                    <th>DEZ</th>
+                                    <th>Total</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="fixas-body"></tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Total</th>
+                                    <th id="fixas-total-jan">R$ 0,00</th>
+                                    <th id="fixas-total-fev">R$ 0,00</th>
+                                    <th id="fixas-total-mar">R$ 0,00</th>
+                                    <th id="fixas-total-abr">R$ 0,00</th>
+                                    <th id="fixas-total-mai">R$ 0,00</th>
+                                    <th id="fixas-total-jun">R$ 0,00</th>
+                                    <th id="fixas-total-jul">R$ 0,00</th>
+                                    <th id="fixas-total-ago">R$ 0,00</th>
+                                    <th id="fixas-total-set">R$ 0,00</th>
+                                    <th id="fixas-total-out">R$ 0,00</th>
+                                    <th id="fixas-total-nov">R$ 0,00</th>
+                                    <th id="fixas-total-dez">R$ 0,00</th>
+                                    <th id="fixas-total-geral">R$ 0,00</th>
+                                    <th></th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                    <button onclick="addFixaRow()">Adicionar Categoria</button>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>

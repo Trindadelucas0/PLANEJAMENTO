@@ -1,0 +1,266 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #f5f7fa;
+    color: #222;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 32px;
+    padding: 24px 0 16px 0;
+    background: linear-gradient(90deg, #3498db 0%, #6dd5fa 100%);
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(52,152,219,0.08);
+}
+
+h1 {
+    color: #fff;
+    font-size: 2.7em;
+    letter-spacing: 1px;
+}
+
+.dashboard {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    justify-items: stretch;
+    align-items: flex-start;
+}
+
+.card {
+    background-color: #fff;
+    padding: 24px 18px 18px 18px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(52,152,219,0.08);
+    margin-bottom: 10px;
+    min-width: 340px;
+    max-width: 100%;
+    width: 100%;
+    min-height: 320px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.card h2 {
+    color: #3498db;
+    margin-bottom: 18px;
+    font-size: 1.4em;
+    font-weight: 600;
+}
+
+/* Estilos do Formulário */
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    color: #666;
+}
+
+input, select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1em;
+}
+
+button {
+    padding: 8px 16px;
+    background: linear-gradient(90deg, #3498db 0%, #6dd5fa 100%);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 500;
+    margin-top: 8px;
+    transition: background 0.2s;
+    margin-bottom: 0;
+}
+
+button:hover {
+    background: linear-gradient(90deg, #2980b9 0%, #3498db 100%);
+}
+
+/* Resumo Financeiro */
+#financial-summary {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+}
+.summary-item {
+    flex: 1 1 120px;
+    background: #f0f6fb;
+    border-radius: 8px;
+    padding: 16px 10px;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(52,152,219,0.04);
+    min-width: 120px;
+    margin-bottom: 0;
+}
+.summary-item h3 {
+    color: #2980b9;
+    font-size: 1.05em;
+    margin-bottom: 6px;
+}
+.summary-item p {
+    font-size: 1.3em;
+    font-weight: bold;
+    color: #222;
+}
+
+/* Tabelas */
+.table-responsive {
+    width: 100%;
+    margin-bottom: 10px;
+    overflow-x: unset;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #f8fbfd;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(52,152,219,0.04);
+    min-width: 900px;
+    max-width: 100%;
+}
+th, td {
+    border: 1px solid #e3eaf1;
+    padding: 8px 6px;
+    text-align: center;
+    font-size: 1em;
+}
+th {
+    background: #eaf6fb;
+    color: #2980b9;
+    font-weight: 600;
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+tfoot th {
+    background: #d0eaf7;
+    color: #222;
+    font-weight: bold;
+}
+tr:nth-child(even) td {
+    background: #f4fafd;
+}
+tr:hover td {
+    background: #eaf6fb;
+}
+.linha-total {
+    font-weight: bold;
+    color: #16a085;
+    background: #eafaf1;
+}
+
+/* Estilos da Lista de Transações */
+.transaction-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: #f8f9fa;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.transaction-info {
+    flex: 1;
+}
+
+.transaction-date {
+    font-size: 0.9em;
+    color: #666;
+}
+
+.transaction-description {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.transaction-category {
+    font-size: 0.9em;
+    color: #666;
+}
+
+.transaction-amount {
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.transaction-amount.receita {
+    color: #27ae60;
+}
+
+.transaction-amount.despesa {
+    color: #e74c3c;
+}
+
+.card-full {
+    grid-column: 1 / -1 !important;
+    max-width: 100%;
+    width: 100%;
+    margin-bottom: 32px;
+}
+
+@media (max-width: 1200px) {
+    .dashboard {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+    .card, .card-full {
+        min-width: 0;
+        max-width: 100%;
+    }
+}
+@media (max-width: 900px) {
+    .container {
+        padding: 10px;
+    }
+    #financial-summary {
+        flex-direction: column;
+        gap: 10px;
+    }
+    .dashboard {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    .card {
+        min-width: 0;
+        min-height: 0;
+        max-width: 100%;
+    }
+}
+@media (max-width: 600px) {
+    .card {
+        padding: 10px 4px 8px 4px;
+    }
+    h1 {
+        font-size: 1.3em;
+    }
+    th, td {
+        font-size: 0.95em;
+        padding: 5px 2px;
+    }
+} 
