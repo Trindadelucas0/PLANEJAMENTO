@@ -496,7 +496,7 @@ footer {
     flex-direction: column;
     align-items: center;
     gap: 0.5rem;
-    color: white;
+    color: rgb(0, 0, 0);
     opacity: 0.8;
     animation: bounce 2s infinite;
 }
