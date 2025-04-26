@@ -1,6 +1,6 @@
 # PLANEJAMENTO-FINANCEIRO - Sistema de Gerenciamento Financeiro
 # ACESSE POR AQUI 
-https://trindadelucas0.github.io/PLANEJAMENTO/ 
+https://trindadelucas0.github.io/PLANEJAMENTO/landing.html
 
 ## 📋 Sobre o Projeto
 É uma aplicação web moderna para gerenciamento financeiro pessoal, permitindo o controle de orçamentos, despesas e receitas de forma intuitiva e eficiente. O sistema foi desenvolvido com foco em simplicidade e usabilidade, oferecendo uma interface amigável para o controle financeiro pessoal.
